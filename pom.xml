@@ -59,6 +59,11 @@
             <artifactId>jetty-maven-plugin</artifactId>
             <version>9.2.0.RC0</version>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
+        </dependency>
 
 
     </dependencies>
