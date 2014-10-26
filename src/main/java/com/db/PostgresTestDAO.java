@@ -1,7 +1,7 @@
 package com.db;
 
 import org.postgresql.ds.PGPoolingDataSource;
-import org.postgresql.util.PGobject;
+//import org.postgresql.util.PGobject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
