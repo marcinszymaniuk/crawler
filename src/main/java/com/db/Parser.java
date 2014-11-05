@@ -18,11 +18,10 @@ import java.util.Locale;
  */
 public class Parser {
 
-
-
     public Document getJsoupDocument() {
 
-        File input = new File(getClass().getResource("/kostki.html").getFile());
+        File input = new File(getClass().getResource ("/kostki.html").getFile());
+
         String costOfDeliveryString = null;
         try {
             /*
@@ -30,6 +29,7 @@ public class Parser {
              */
             Document doc = Jsoup.parse(input,
                     "UTF-8","http://allegro.pl/dobre-struny-do-gitary-akustycznej-10-47-3x-kostka-i4639566521.html");
+
             return doc;
 
         } catch (IOException e) {
@@ -54,14 +54,19 @@ public class Parser {
      */
     public double parseDocument(Document doc) {
         double price = -1;
+        Product product = new Product();
         List<Double> listOfCosts = new LinkedList<Double>();
         String costOfDeliveryString;
-        Element link = doc.select("strong[data-price]").first();
-        Element link1 = doc.select("span[itemprop]").first();
+        Element priceElement = doc.select("strong[data-price]").first();
+        String category = doc.select("span[itemprop]").first().text();
         Elements link2 = doc.select("strong[class]");
-               /*Throw useless comments away before commit. (Do the same with my comments as well) */
-//            System.out.print(link2);
-//            System.out.println(link2.attr("class"));
+        String seller = doc.select("dt[data-seller]").text().split(" ")[1];
+        //to jest text, który jest pomiedzy tagami p,
+        //niestety jest kilka wyrazow, ktore mają te same znaczniki i ciezko je troche rozdzielic zeby znalesc lokalizacje
+        String location = doc.select("p[class]").text();
+        //moze byc tak i to niby pokazuje to co chcemy, ale mala zmiana htmla moze to zepsuc
+        location = location.split(" ")[15];
+        System.out.println("lokalizacja " + location );
 
         for(Element src:link2){
             if(src.attr("class").equals("whiteBg")){
@@ -71,17 +76,13 @@ public class Parser {
                     Number number = format.parse(costOfDeliveryString);
                     double costOfDelivery = number.doubleValue();
                     listOfCosts.add(costOfDelivery);
-
                 }catch (ParseException pe){
                     System.out.print("parseException");
                 }
 
             }
         }
-        String stringPrice = link.text().split(" z")[0];
-
-        System.out.println(stringPrice);
-
+        String stringPrice = priceElement.text().split(" z")[0];
 
         try {
             NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
@@ -92,11 +93,10 @@ public class Parser {
             pe.printStackTrace();
         }
 
+        product.setProduct(price,listOfCosts,seller,location,category);
 
-        String category = link1.text();
 
-        System.out.println("Cena podstawowa: "+price+ " zł. " +"kategoria: "+
-                category + " " +"koszty dostawy:" + listOfCosts.toString());
+        System.out.println(product.toString());
         return price;
     }
 

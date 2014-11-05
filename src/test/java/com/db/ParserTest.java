@@ -14,8 +14,7 @@ public class ParserTest {
         Document doc = p.getJsoupDocument();
         double price = p.parseDocument(doc);
 
-        assertEquals(9.9,price);
 
-
+        assertEquals(9.9, price);
     }
 }
