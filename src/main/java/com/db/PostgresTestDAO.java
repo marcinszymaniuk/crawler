@@ -24,7 +24,6 @@ public class PostgresTestDAO implements TestDAO {
         source.setMaxConnections(maxConnections);
     }
 
-    @Override
     public List<String> selectExample() {
         PreparedStatement st;
         Connection conn = null;

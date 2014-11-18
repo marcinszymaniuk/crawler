@@ -1,5 +1,6 @@
 package com.db;
 
+import com.model.Category;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -52,13 +53,14 @@ public class Parser {
      * For now this returns just price. We should create a class describing product so we can return an instance of it.
      *
      */
-    public double parseDocument(Document doc) {
+    public Product parseDocument(Document doc, Category superCategory) {
         double price = -1;
         Product product = new Product();
         List<Double> listOfCosts = new LinkedList<Double>();
         String costOfDeliveryString;
         Element priceElement = doc.select("strong[data-price]").first();
-        String category = doc.select("span[itemprop]").first().text();
+        String subCategory = doc.select("span[itemprop]").first().text();
+        superCategory.addSubcategory(subCategory);
         Elements link2 = doc.select("strong[class]");
         String seller = doc.select("dt[data-seller]").text().split(" ")[1];
         //to jest text, który jest pomiedzy tagami p,
@@ -93,11 +95,11 @@ public class Parser {
             pe.printStackTrace();
         }
 
-        product.setProduct(price,listOfCosts,seller,location,category);
+        product.setProduct(price, listOfCosts, seller, location, superCategory);
 
 
         System.out.println(product.toString());
-        return price;
+        return product;
     }
 
 

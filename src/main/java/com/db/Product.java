@@ -1,5 +1,7 @@
 package com.db;
 
+import com.model.Category;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,14 +13,14 @@ public class Product {
     private List<Double> listOfCost;
     private String seller;
     private String location;
-    private String category;
+    private Category category;
 
     public Product(){
         listOfCost = new LinkedList<Double>();
     }
 
     public void setProduct(double price, List<Double> listOfCost, String seller,
-                           String location ,String category){
+                           String location ,Category category){
         this.price = price;
         this.listOfCost = listOfCost;
         this.seller = seller;
@@ -33,7 +35,24 @@ public class Product {
                 + " sprzedawca : "+ seller + " lokalizacja : " + location + " Kategoria : " + category;
         return text;
     }
-    public Product getProduct(){
-        return this;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public List<Double> getDeliveryCost() {
+        return listOfCost;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }
