@@ -1,4 +1,4 @@
-package com.db;
+package com.model;
 
 import com.model.Category;
 

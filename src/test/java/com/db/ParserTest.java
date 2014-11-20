@@ -1,6 +1,8 @@
 package com.db;
 
 import com.model.Category;
+import com.service.Parser;
+import com.model.Product;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ public class ParserTest {
         Document doc = p.getJsoupDocument();
         Category superCategory = new Category();
         superCategory.addSubcategory("Kultura i rozrywka");
-        Product product = p.parseDocument(doc, superCategory);
+        Product product = p.parseProductPage(doc, superCategory);
 
         assertEquals(9.9, product.getPrice());
         assertEquals("Kultura i rozrywka", product.getCategory().get(0));

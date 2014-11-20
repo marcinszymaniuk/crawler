@@ -1,6 +1,8 @@
-package com.db;
+package com.service;
 
 import com.model.Category;
+import com.model.PageMetadata;
+import com.model.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -53,7 +55,7 @@ public class Parser {
      * For now this returns just price. We should create a class describing product so we can return an instance of it.
      *
      */
-    public Product parseDocument(Document doc, Category superCategory) {
+    public Product parseProductPage(Document doc, Category superCategory) {
         double price = -1;
         Product product = new Product();
         List<Double> listOfCosts = new LinkedList<Double>();
@@ -102,5 +104,12 @@ public class Parser {
         return product;
     }
 
+    public PageMetadata parsePageMetadata(Document doc, Category superCategory) {
+          return null;
+    }
 
+
+    public List<String> getProductURLs(Document doc, Category superCategory) {
+        return null;
+    }
 }
