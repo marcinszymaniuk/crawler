@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -18,7 +19,9 @@ public class ParserTest {
         Parser p = new Parser();
         Document doc = p.getJsoupDocument();
         Category superCategory = new Category();
+
         superCategory.addSubcategory("Kultura i rozrywka");
+
 //        Product product = p.parseProductPage(doc, superCategory);
 //
 //        assertEquals(9.9, product.getPrice());
@@ -32,7 +35,9 @@ public class ParserTest {
 //        assertEquals("Nd_Instrumenty", product.getSeller());
 //        assertEquals("Wrocław", product.getLocation());
 
-        p.parsePageMetadata(doc, superCategory);
+//        p.parsePageMetadata(doc, superCategory);
+//        p.getProductURLs(doc,superCategory);
+        p.parseListOfProduct(doc,superCategory);
 
     }
 }

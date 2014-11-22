@@ -23,7 +23,7 @@ public class Parser {
 
     public Document getJsoupDocument() {
 
-        File input = new File(getClass().getResource ("/kostki.html").getFile());
+        File input = new File(getClass().getResource ("/Kuchnia.html").getFile());
 
         String costOfDeliveryString = null;
         try {
@@ -55,45 +55,59 @@ public class Parser {
      * For now this returns just price. We should create a class describing product so we can return an instance of it.
      *
      */
-    public Product parseProductPage(Document doc, Category superCategory) {
+    public Product parseProductPage(Document doc, Category superCategory){
         double price = -1;
         Product product = new Product();
         List<Double> listOfCosts = new LinkedList<Double>();
         String costOfDeliveryString;
-        Element priceElement = doc.select("strong[data-price]").first();
-        String subCategory = doc.select("span[itemprop]").first().text();
-        superCategory.addSubcategory(subCategory);
-        Elements costOfDeliveryElements = doc.select("strong[class]");
-        String seller = doc.select("dt[data-seller]").text().split(" ")[1];
-        String location = doc.select("p[class]").text();
-        location = location.split(" ")[15];
-
-//        System.out.println("lokalizacja " + location );
+        Elements costOfDeliveryElements = null;
+        Element priceElement = null;
+        String subCategory = "";
+        String seller = "";
+        String location = "";
+        String stringPrice ="";
+        try {
+            priceElement = doc.select("strong[data-price]").first();
+            subCategory = doc.select("span[itemprop]").first().text();
+            superCategory.addSubcategory(subCategory);
+            costOfDeliveryElements = doc.select("strong[class]");
+            seller = doc.select("dt[data-seller]").text().split(" ")[1];
+            location = doc.select("p[class]").text();
+            location = location.split(" ")[15];
+            stringPrice = priceElement.text().split(" z")[0];
+        } catch (NullPointerException e) {
+            System.out.print("Strona wygasła lub inne zle rzeczy");
+//            e.printStackTrace();
+        }
 
 
         System.out.println(doc.select("a[href*=/ref/]"));
-        for(Element src:costOfDeliveryElements){
-            if(src.attr("class").equals("whiteBg")){
-                costOfDeliveryString = src.text().trim().split(" z")[0];
-                try {
+        try {
+            for (Element src : costOfDeliveryElements) {
+                if (src.attr("class").equals("whiteBg")) {
+                    costOfDeliveryString = src.text().trim().split(" z")[0];
+
                     NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
                     Number number = format.parse(costOfDeliveryString);
                     double costOfDelivery = number.doubleValue();
                     listOfCosts.add(costOfDelivery);
-                }catch (ParseException pe){
-                    System.out.print("parseException");
-                }
 
+//                    System.out.print("parseException");
+
+
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        String stringPrice = priceElement.text().split(" z")[0];
+
 
         try {
             NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
             Number number = format.parse(stringPrice);
             price = number.doubleValue();
 
-        }catch (ParseException pe){
+        } catch (ParseException pe) {
             pe.printStackTrace();
         }
 
@@ -118,15 +132,6 @@ public class Parser {
         PageMetadata pageMetadata = new PageMetadata();
 
         subcategoryElements= doc.select("a[href*=simplified]").not("[class]");
-
-        categoryElements = doc.select("li[class^=main-breadcrumb]");
-
-        for(Element element:categoryElements){
-            System.out.println(element.child(0).select("span").text());
-            categoryString = element.child(0).select("span").text();
-            category.addSubcategory(categoryString);
-        }
-
         for(Element element:subcategoryElements) {
 
             nameOfSubcategoryFirstPage = element.select("span").text();
@@ -143,6 +148,15 @@ public class Parser {
                 }
             }
         }
+
+        categoryElements = doc.select("li[class^=main-breadcrumb]");
+        for(Element element:categoryElements){
+            System.out.println(element.child(0).select("span").text());
+            categoryString = element.child(0).select("span").text();
+            category.addSubcategory(categoryString);
+        }
+
+
         System.out.println(category.toString());
         System.out.println(pageMetadata.getSubcategoryNameToUrl());
         return pageMetadata;
@@ -150,6 +164,40 @@ public class Parser {
 
 
     public List<String> getProductURLs(Document doc, Category superCategory) {
-        return null;
+        Elements linksElements;
+        String link;
+        List<String> listOfUrl = new LinkedList<String>();
+
+        linksElements = doc.select("a[href*=html]");
+        for (Element element : linksElements) {
+            link = element.attr("href");
+            listOfUrl.add(link);
+//            System.out.println(link);
+        }
+
+        return listOfUrl;
+    }
+    public void parseListOfProduct(Document doc,Category superCategory) throws ParseException{
+        List<String> listOfProductUrl = new LinkedList<String>();
+        List<Product> listOfProduct = new LinkedList<Product>();
+        Product product = new Product();
+        listOfProductUrl = getProductURLs(doc, superCategory);
+        Document productDocument;
+        try {
+            for (String element : listOfProductUrl) {
+                productDocument = Jsoup.connect(element).get();
+                System.out.println(element);
+//                System.out.println(productDocument);
+                product = parseProductPage(productDocument, superCategory);
+                listOfProduct.add(product);
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+
+
     }
 }
