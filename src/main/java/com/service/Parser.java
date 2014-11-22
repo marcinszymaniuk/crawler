@@ -31,7 +31,7 @@ public class Parser {
              * It's hard to understand here whether you pull documents from allegro or take it from disk
              */
             Document doc = Jsoup.parse(input,
-                    "UTF-8","http://allegro.pl/dobre-struny-do-gitary-akustycznej-10-47-3x-kostka-i4639566521.html");
+                    "UTF-8","http://allegro.pl/wyposazenie-123?ref=simplified-category-tree");
 
             return doc;
 
@@ -63,16 +63,16 @@ public class Parser {
         Element priceElement = doc.select("strong[data-price]").first();
         String subCategory = doc.select("span[itemprop]").first().text();
         superCategory.addSubcategory(subCategory);
-        Elements link2 = doc.select("strong[class]");
+        Elements costOfDeliveryElements = doc.select("strong[class]");
         String seller = doc.select("dt[data-seller]").text().split(" ")[1];
-        //to jest text, który jest pomiedzy tagami p,
-        //niestety jest kilka wyrazow, ktore mają te same znaczniki i ciezko je troche rozdzielic zeby znalesc lokalizacje
         String location = doc.select("p[class]").text();
-        //moze byc tak i to niby pokazuje to co chcemy, ale mala zmiana htmla moze to zepsuc
         location = location.split(" ")[15];
-        System.out.println("lokalizacja " + location );
 
-        for(Element src:link2){
+//        System.out.println("lokalizacja " + location );
+
+
+        System.out.println(doc.select("a[href*=/ref/]"));
+        for(Element src:costOfDeliveryElements){
             if(src.attr("class").equals("whiteBg")){
                 costOfDeliveryString = src.text().trim().split(" z")[0];
                 try {
@@ -104,8 +104,48 @@ public class Parser {
         return product;
     }
 
-    public PageMetadata parsePageMetadata(Document doc, Category superCategory) {
-          return null;
+    public PageMetadata parsePageMetadata(Document doc,Category superCategory) {
+
+        Elements subcategoryElements;
+        Elements categoryElements;
+
+        String subcategoryUrl = " ";
+        String nameOfSubcategory;
+        String nameOfSubcategoryFirstPage;
+        String categoryString;
+
+        Category category = new Category();
+        PageMetadata pageMetadata = new PageMetadata();
+
+        subcategoryElements= doc.select("a[href*=simplified]").not("[class]");
+
+        categoryElements = doc.select("li[class^=main-breadcrumb]");
+
+        for(Element element:categoryElements){
+            System.out.println(element.child(0).select("span").text());
+            categoryString = element.child(0).select("span").text();
+            category.addSubcategory(categoryString);
+        }
+
+        for(Element element:subcategoryElements) {
+
+            nameOfSubcategoryFirstPage = element.select("span").text();
+            nameOfSubcategory = element.select("span[class*=name]").text();
+
+            if (!nameOfSubcategory.equals("") || !nameOfSubcategoryFirstPage.equals("")) {
+                subcategoryUrl = element.attr("href");
+
+                if (!nameOfSubcategory.equals("")) {
+                    pageMetadata.addToSubcategoryNameToUrl(nameOfSubcategory, subcategoryUrl);
+                } else {
+                    pageMetadata.addToSubcategoryNameToUrl(nameOfSubcategoryFirstPage, subcategoryUrl);
+                    //ustawic flage o tym czy jest ostatnią kategorą
+                }
+            }
+        }
+        System.out.println(category.toString());
+        System.out.println(pageMetadata.getSubcategoryNameToUrl());
+        return pageMetadata;
     }
 
 

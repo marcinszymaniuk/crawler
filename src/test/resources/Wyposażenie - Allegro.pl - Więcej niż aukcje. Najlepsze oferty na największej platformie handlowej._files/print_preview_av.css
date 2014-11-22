@@ -1,0 +1,480 @@
+/*#printPreview {display: none;}*/
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+button{
+    background: #e2e2e2;
+    background:    -moz-linear-gradient(top, #fff 0, #e1e1e1 100%);
+    background: -webkit-linear-gradient(top, #fff 0, #e1e1e1 100%);
+    background:      -o-linear-gradient(top, #fff 0, #e1e1e1 100%);
+    background:     -ms-linear-gradient(top, #fff 0, #e1e1e1 100%);
+    background:         linear-gradient(top, #fff 0, #e1e1e1 100%);
+    height: 25px;
+    display: inline-block;
+    border: 1px solid #747474;
+    text-align: center;
+    margin: 0;
+    padding: 0 5px;
+    position: relative;
+    border-radius: 5px;
+    min-width: 90px;
+    cursor: pointer;
+}
+#listingMyAccount .bold { font-weight: bold; }
+#filterBox,
+#footerBox,
+#listButtonsTop,
+#reg,
+.left-menu,
+.filtersSwitch,
+.listingSorter,
+.options,
+.invertBtn,
+.td-pager,
+.noprint,
+input[type=checkbox],
+input[type=submit],
+#listButtonsMain,
+.rgTopPosition,
+.itemListing th.cellPhoto a.icoHelp,
+.table-error,
+.table-msg,
+p.tocenter img,
+.hundredSelection img,
+#listingMyAccount th img,
+.listStandard th img,
+.extendedHeader,
+.galleryTrigger,
+.photoFromProductCatalogueDesc,
+.galleryContainer,
+span.leftControl,
+span.rightControl,
+div.sellerMoreDetails,
+#userFieldTab,
+.galleryThumbs,
+.messageInfoHelper,
+.hidden,
+#phoneBox,
+.itemListResult .cellName div > span,
+a.allOffers,
+#bestOfferMore,
+#siWrapper ul.siTimeToEnd li.buyerInfo,
+form.filtersForm,
+div#siWrapper div#itemFinishBox2 div.left,
+#shopping-list-status,
+#installment,
+#siPok,
+#siInstallments {
+    display: none;
+}
+a.errorTrigger,
+td.photoWrap,
+#productDescNew .infoThemeInfo,
+.itemListResult .iImg,
+.breadcrumbs,
+.listCaption img,
+.search_panel,
+.tabsOptions,
+#paramsTopWrap,
+.recommendedGalleryWrapper,
+.itemSM,
+.sellerMoreDetails,
+li.howBuyLink,
+#headerBox,
+#searchPanel,
+#footerContentBox,
+.reg,
+#idPrintGo,
+#siPok,
+#watchedNav ul,
+#rulesBreakLink,
+.sellerDetails dd,
+#paymentShipment,
+div.siButton,
+#siSocialLinks,
+#history p,
+#isAdvert,
+#naviLeft,
+.itemListing th.cellPhoto,
+.itemListing td.cellPhoto,
+.listCaption th.cellPhoto,
+.listCaption td.cellPhoto,
+#pagerBottom,
+.ui-dialog,
+.vela-layout,
+.vela {
+    display: none!important;
+}
+input,textarea{font-size: 11px;font-family: Arial,Helvetica,sans-serif;}
+.themeHead,
+.tocenter{text-align: center;}
+a{color: #333;text-decoration: none}
+div{overflow: visible!important;}
+.nowrap { white-space: nowrap; }
+div#wrapper,
+#contentRight{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    float: none;
+}
+.messageBox{
+    font-size: 12px;
+    margin: 20px auto 0;
+    padding: 10px!important;
+    width: 700px;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid #ADBDD7;
+    box-shadow: 0 0 0 1px #fff inset;
+    color: #00123D;
+    background: #E3EAF4 url(../layout/iconInfo.png) 12px 12px no-repeat;
+}
+.messageBox p{
+    margin: 1px 1px 2px 50px;
+}
+.messageBox .printOptions ul{
+    float: left;
+    width: 200px;
+    margin: 3px 0 10px 50px;
+    padding: 0;
+    list-style: none;
+}
+.messageBoxButtons {
+    margin: 0 auto 20px;
+    padding: 10px!important;
+    width: 700px;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #ADBDD7;
+    border-top: none;
+    text-align: right;
+    background: rgb(239,239,239);
+    background:    -moz-linear-gradient(top, rgba(239,239,239,1) 0%, rgba(255,255,255,1) 100%);
+    background:        -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,239,239,1)), color-stop(100%,rgba(255,255,255,1)));
+    background: -webkit-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 100%);
+    background:      -o-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 100%);
+    background:     -ms-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 100%);
+    background:         linear-gradient(top, rgba(239,239,239,1) 0%,rgba(255,255,255,1) 100%);
+}
+.messageBoxButtons a {
+    margin-right: 10px;
+    color: #0083ff;
+}
+.listCaption,
+h2.themeHead{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 20px 0 10px;
+    clear: both;
+}
+.itemListing table{
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.listFeatured th,
+.listStandard th{
+    width: 15%;
+    padding-bottom: 5px
+}
+.listFeatured td,
+.listStandard td,
+#listingMyAccount td.borderTop{
+    border-top: 1px solid #ddd;
+}
+#listingMyAccount td p,
+.listingMyAccount td p { margin: 1px 0; }
+#listingMyAccount td {height:100%}
+.listFeatured th.cellName,
+.listStandard th.cellName{width: 40%}
+.itemFS{
+    display: inline-block;
+    font-size: 10px;
+    white-space: nowrap;
+}
+.iShippingTime{display: block}
+
+/*ShowItem2*/
+#siTitleBar h1{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0 20px;
+}
+.galleryThumbs ul,
+ul.siTimeToEnd {
+    clear: both;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.siTimeToEnd .right{float: none}
+.galleryThumbs li {
+    float: left;
+    width: 84px;
+    margin-bottom: 12px;
+}
+ul.siTimeToEnd li,
+div.siPrice,
+div.siMaxOffer,
+div.siQuantity,
+#siWrapper div#itemFinishBox2 div,
+div#watchedNav.productTabs p.itemId{
+    padding: 0;
+    margin: 0;
+    clear: both;
+    font-size: 11px;
+    color: #000;
+    white-space: nowrap;
+    height: 27px;
+    display: block;
+}
+div.siQuantity p {
+    font-size: 11px;
+    float: left;
+    margin: 3px 3px 0 0;
+    padding: 0;
+}
+ul.siTimeToEnd li .small,
+div.siPrice .small,
+div.siMaxOffer .small{
+    font-size: 11px;
+}
+.sellerDetails dl{
+    margin: 0;
+}
+.sellerDetails dl dt{
+    padding: 0;
+    clear: both;
+    margin: 4px 0 0;
+    height: 27px;
+    display: block;
+}
+#siBidForm2{clear: both}
+#siBidForm2 .tocenter{
+    text-align: left;
+    margin: 0;
+    padding: 7px 0 0;
+}
+#tabMainBox,
+.galleryThumbs li a,
+#siBidForm2 fieldset {
+    border: none;
+}
+div.siPrice p{
+    float: left;
+    margin: 0 4px 0 0
+}
+div.siMaxOffer p{
+    float: left;
+    position: relative;
+    top: 3px;
+    margin: 0 4px 0 0
+}
+#delivery{display: block;clear: both}
+#siTitleBar h1 {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: verdana,tahoma,arial,sans-serif;
+}
+.galleryWrap .gallery .galleryContainer{display: none}
+.galleryThumbs li a {
+    border: 1px solid #C8C8C8;
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    margin: 2px 10px 2px 0;
+    padding: 4px;
+}
+#siGallery {
+    float: none;
+}
+.galleryThumbs li img {
+    float: left;
+}
+#siWrapper {
+    font-size: 11px;
+    font-family: tahoma,verdana,arial,sans-serif;
+    margin: 0;
+    position: relative;
+    z-index: 9;
+}
+#siWrapper fieldset{
+    padding: 0;
+    margin: 0;
+}
+.sellerDetails {
+    float: none;
+    position: relative;
+    width: 100%;
+}
+div.productTabs {
+    height: 32px;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+#userFieldTab, #delivery, #history, #productDescNew {
+    border: 1px solid #c8c8c8;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    display: none;
+    padding: 5px 10px 10px;
+    margin-bottom: 20px;
+}
+#delivery .small,
+#history .small,
+#productDescNew .small{
+    font-size: 11px;
+}
+#history{display: none}
+#history table,
+.deliveryAndPayment table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 0;
+}
+.deliveryAndPayment th,
+.deliveryAndPayment td,
+.bidHistoryList th,
+.bidHistoryList td{
+    font-size: 11px;
+    padding: 5px 0;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+#delivery h5 {
+    font-size: 14px;
+    margin: 10px 0 5px 8px;
+}
+#printPreview table,
+table.paramTab,
+table.listFeatured{
+    width: 100%;
+}
+#printPreview td{font-size: 12px}
+
+#printPreview input[type=checkbox]{display: inline-block}
+.clearfix:after {
+    clear: both;
+}
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.marginTop10{margin-top: 10px}
+.floatLeft{float: left}
+.floatRight{float: right}
+.yesPrint{display: block!important}
+.noPrint{display: none!important}
+#tabsContent{margin: 0!important}
+#tabsContent th
+#tabsContent td,{
+    padding: 5px;
+    font-size: 11px
+}
+#productDescNew h2 {
+  border-bottom: 1px solid #ddd;
+  text-transform: uppercase;
+  color: #4a4945;
+  margin: 0 0 5px 0;
+  font-size: 13px;
+  font-weight: bold;
+  position: relative;
+}
+#productDescNew h2 span {
+  color: #000 !important;
+  font-size: 11px;
+  font-weight: normal;
+  text-decoration: none;
+  text-transform: none;
+  cursor: pointer;
+  font-family: Arial;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/*Katalog produktów*/
+#productDescNew span.groupTitle {
+    font-size: 11px;
+    margin: 0 0 2px;
+    padding: 0;
+    width: 100%;
+}
+#productDescNew span.groupTitle {
+    font-weight: bold;
+}
+#productDescNew table.paramTab td {
+    border-bottom: 1px solid #ddd;
+    font-size: 11px;
+    padding: 5px 7px 5px 0;
+    width: 50%
+}
+#pagecontent1{padding: 0 5px}
+#productDescNew .tabPadding {
+    margin: 0 0 10px;
+    width: 100%;
+}
+#delivery h5 {
+    font-size: 11px;
+    margin: 5px 0 8px;
+}
+/*Listing Gallery*/
+div.listGallery .listFeatured .itemListResult,
+div.listGallery .listStandard .itemListResult{
+    border-top: 1px solid #ddd;
+    padding: 5px 0;
+}
+div.listGallery div.listStandard div.itemListResult div.itemDetails div.itemOffer span.right,
+div.listGallery div.listFeatured div.itemListResult div.itemDetails div.itemOffer span.right{
+    float: none;
+    display: block;
+    clear: both;
+}
+div.listGallery .itemListResult {
+    width: 235px;
+    min-height: 100px;
+    float: left;
+}
+div#siWrapper div#itemFinishBox2 div.left p{float:left; margin:0 4px 4px 0}
+div#itemFinishBox2 div.left:first-child {
+    display: block!important
+}
+
+.helptip-sm-advert .close {
+    display: none;
+}
+.helptip-sm-advert .sm-advert-title {
+    font-size: 1.4em;
+    margin: 0 0 10px;
+}
+.helptip-sm-advert .sm-advert-logo {
+    float: left;
+    margin-right: 20px;
+}
+.helptip-sm-advert .sm-advert-info ul {
+    overflow: hidden;
+    padding: 0 0 0 1.2em;
+    margin: 0.2em 0 0.6em 1.2em;
+}
+
+/* for bootstrap tables */
+.table {
+    width: 100%;
+}
+.table td {
+     border-top: 1px solid #ddd;
+}
+#filtersBox,
+.pagination,
+.listing-sorter,
+.nav-tabs,
+.main-tabs {
+    display: none;
+}

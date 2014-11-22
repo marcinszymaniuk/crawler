@@ -18,6 +18,9 @@ public class Category {
          return categories.get(i);
     }
 
+    public List<String> getCategories(){
+        return categories;
+    }
     @Override
     public String toString() {
         return "Category{" +
