@@ -13,18 +13,19 @@ public class PageMetadata {
     public PageMetadata(){
         subcategoryNameToUrl = new HashMap<String, String>();
     }
-    public void get(String selfUrl){
-        this.selfUrl = selfUrl;
-    }
-    public void setCategory(){
 
-    }
-    public void addToSubcategoryNameToUrl(String subcategoryUrl,String nameOfSubcategory) {
-        subcategoryNameToUrl.put(subcategoryUrl, nameOfSubcategory);
+    public void addToSubcategoryNameToUrl(String nameOfSubcategory, String subcategoryUrl) {
+        subcategoryNameToUrl.put(nameOfSubcategory, subcategoryUrl);
     }
     public Map<String,String> getSubcategoryNameToUrl(){
         return subcategoryNameToUrl;
     }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public boolean isLowestLevel() {
+        return isLowestLevel;
+    }
 }

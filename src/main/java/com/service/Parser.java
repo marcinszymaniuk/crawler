@@ -21,17 +21,14 @@ import java.util.Locale;
  */
 public class Parser {
 
-    public Document getJsoupDocument() {
-
-        File input = new File(getClass().getResource ("/Kuchnia.html").getFile());
-
+    public Document getJsoupDocument(File input) {
         String costOfDeliveryString = null;
         try {
             /*
              * It's hard to understand here whether you pull documents from allegro or take it from disk
              */
             Document doc = Jsoup.parse(input,
-                    "UTF-8","http://allegro.pl/wyposazenie-123?ref=simplified-category-tree");
+                    "UTF-8", "http://allegro.pl/wyposazenie-123?ref=simplified-category-tree");
 
             return doc;
 
@@ -131,7 +128,7 @@ public class Parser {
         Category category = new Category();
         PageMetadata pageMetadata = new PageMetadata();
 
-        subcategoryElements= doc.select("a[href*=simplified]").not("[class]");
+        subcategoryElements= doc.select("#sidebar-categories").select("a[href*=simplified]").not("[class]");
         for(Element element:subcategoryElements) {
 
             nameOfSubcategoryFirstPage = element.select("span").text();
