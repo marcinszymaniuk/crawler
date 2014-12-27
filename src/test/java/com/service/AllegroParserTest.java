@@ -66,4 +66,15 @@ public class AllegroParserTest {
         assertEquals(19, pageMetadata.getSubcategoryNameToUrl().size());
         assertFalse(pageMetadata.isLowestLevel());
     }
+
+    @Test
+    public void testParsePageMetadataLowestLevelCategory() throws Exception {
+        JsoupUtils jsoupUtils = new JsoupUtils();
+        Document doc = jsoupUtils.getJsoupDocument(new File(this.getClass().
+                getResource("/allegro/klocki-cobi/klocki-cobi.html").getFile()));
+        Category superCategory = new Category();
+        PageMetadata pageMetadata = new AllegroParser().parsePageMetadata(doc, superCategory);
+        assertEquals(0, pageMetadata.getSubcategoryNameToUrl().size());
+        assertTrue(pageMetadata.isLowestLevel());
+    }
 }

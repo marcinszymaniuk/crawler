@@ -37,6 +37,10 @@ public class PageMetadata {
         return isLowestLevel;
     }
 
+    public void setLowestLevel(boolean isLowestLevel) {
+        this.isLowestLevel = isLowestLevel;
+    }
+
     @Override
     public String toString() {
         return "PageMetadata{" +

@@ -37,6 +37,7 @@ public class JsoupUtils {
     public Document getJsoupDocument(String url) {
         String costOfDeliveryString = null;
         try {
+            url = url.startsWith("http")?url:"http://allegro.pl/"+url;
             Document doc = Jsoup.connect(url).timeout(10000).get();
             return doc;
 

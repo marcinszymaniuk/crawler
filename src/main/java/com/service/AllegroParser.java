@@ -114,6 +114,13 @@ public class AllegroParser implements Parser{
         String nameOfSubcategoryFirstPage;
         PageMetadata pageMetadata = new PageMetadata(superCategory, doc.baseUri(), false);
 
+        Element current = doc.select(".sidebar-cat").select(".current").first();
+        if(current!=null){
+            pageMetadata.setLowestLevel(true);
+            return pageMetadata;
+        }
+
+
         Elements categories = doc.select(".category-map-list-wrapper .main-category a");
         //lack of main (large font) categories
         if(categories.isEmpty()){
