@@ -1,6 +1,7 @@
 package com.model;
 
 import com.model.Category;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,9 +30,7 @@ public class Product {
 
     }
     public String toString(){
-//        System.out.println("Cena podstawowa" + price + " koszty dostawy : " + listOfCost.toString()
-//            + "sprzedawca : "+ seller + "lokalizacja : " + location);
-        String text ="Cena podstawowa : " + price + " koszty dostawy : " + listOfCost.toString()
+        String text ="Cena podstawowa : " + price + " koszty dostawy : " + (listOfCost!=null?listOfCost.toString():"")
                 + " sprzedawca : "+ seller + " lokalizacja : " + location + " Kategoria : " + category;
         return text;
     }
