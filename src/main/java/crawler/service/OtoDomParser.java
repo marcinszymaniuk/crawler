@@ -56,7 +56,16 @@ public class OtoDomParser implements Parser {
     }
 
     public PageMetadata parsePageMetadata(Document doc, Category superCategory) {
-        return new PageMetadata(new Category(), "", true);
+        PageMetadata pageMetadata = new PageMetadata(new Category(), "", true);
+        Element nextLink = doc.select(".od-pagination_next").first();
+        if(nextLink != null){
+            String link = nextLink.attr("href");
+            link = link.startsWith("http")?link:"http://otodom.pl"+link;
+            pageMetadata.setNextPageLink(link);
+
+        }
+        return pageMetadata;
+
     }
 
 

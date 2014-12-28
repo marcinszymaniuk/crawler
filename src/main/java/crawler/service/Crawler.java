@@ -5,6 +5,7 @@ import crawler.db.ProductDAOInMemory;
 import crawler.model.Category;
 import crawler.model.PageMetadata;
 import crawler.model.Product;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,15 +77,7 @@ public class Crawler {
             }
             if (pageMetadata.isLowestLevel()) {
                 //Pobierz produkty
-                List<String> productUrls = parser.getProductURLs(doc, new Category());
-                for (String productUrl : productUrls) {
-//                    Thread.sleep(150);
-                    logger.info("Going to product page: {} {}", name, productUrl);
-                    Document productDoc = jsoupUtils.getJsoupDocument(productUrl);
-                    Product product = parser.parseProductPage(productDoc, new Category());
-                    logger.info("Product[{}]: {}", name, product);
-                    productDAO.saveProduct(product, name);
-                }
+                getProducts(url);
                 return;
             }
 
@@ -97,5 +90,28 @@ public class Crawler {
         } catch (UnexpectedParserState e) {
             e.printStackTrace();
         }
+    }
+
+    private void getProducts(String url) {
+        PageMetadata pageMetadata;
+        String nextUrl = url;
+        Document doc;
+
+        do {
+            logger.info("Iterating through product page {}", nextUrl);
+            doc = jsoupUtils.getJsoupDocument(nextUrl);
+            pageMetadata = parser.parsePageMetadata(doc, new Category());
+            nextUrl = pageMetadata.getNextPageLink();
+            List<String> productUrls = parser.getProductURLs(doc, new Category());
+            for (String productUrl : productUrls) {
+//                    Thread.sleep(150);
+                logger.info("Going to product page: {} {}", name, productUrl);
+                Document productDoc = jsoupUtils.getJsoupDocument(productUrl);
+                Product product = parser.parseProductPage(productDoc, new Category());
+                logger.info("Product[{}]: {}", name, product);
+                productDAO.saveProduct(product, name);
+            }
+        }while(nextUrl != null);
+
     }
 }

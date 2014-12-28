@@ -114,7 +114,11 @@ public class AllegroParser implements Parser {
         PageMetadata pageMetadata = new PageMetadata(superCategory, doc.baseUri(), false);
 
         Element current = doc.select(".sidebar-cat").select(".current").first();
-        if (current != null) {
+        if (current != null ) {
+            Element nextLink = doc.select(".next a").first();
+            if(nextLink != null){
+                pageMetadata.setNextPageLink(nextLink.attr("href"));
+            }
             pageMetadata.setLowestLevel(true);
             return pageMetadata;
         }
@@ -159,24 +163,5 @@ public class AllegroParser implements Parser {
         return listOfUrl;
     }
 
-    public void parseListOfProduct(Document doc, Category superCategory) throws ParseException {
-        List<String> listOfProductUrl = new LinkedList<String>();
-        List<Product> listOfProduct = new LinkedList<Product>();
-        Product product = new Product();
-        listOfProductUrl = getProductURLs(doc, superCategory);
-        Document productDocument;
-        try {
-            for (String element : listOfProductUrl) {
-                productDocument = Jsoup.connect(element).get();
-//                System.out.println(productDocument);
-                product = parseProductPage(productDocument, superCategory);
-                listOfProduct.add(product);
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 }

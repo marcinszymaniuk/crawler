@@ -1,6 +1,7 @@
 package crawler.service;
 
 import crawler.model.Category;
+import crawler.model.PageMetadata;
 import crawler.model.Product;
 import crawler.service.JsoupUtils;
 import crawler.service.OtoDomParser;
@@ -18,7 +19,7 @@ public class OtoDomParserTest {
     public void testAgentParseProductPage() throws Exception {
         JsoupUtils jsoupUtils = new JsoupUtils();
 
-        OtoDomParser parser= new OtoDomParser();
+        OtoDomParser parser = new OtoDomParser();
 
         File otodomMain = new File(this.getClass().getResource("/otodom/product/agent/mieszkanie.html").getFile());
         Document otodomMainDoc = jsoupUtils.getJsoupDocument(otodomMain);
@@ -27,12 +28,14 @@ public class OtoDomParserTest {
         assertEquals(87000, product.getPrice(), 0);
         assertEquals("http://otodom.pl/biuro-nieruchomosci/caruknieruchomosci-id717669/ Sławek Caruk", product.getSeller());
         assertEquals("Kamień Pomorski, Długosza, pow. kamieński", product.getLocation());
+
     }
+
     @Test
     public void testDirectParseProductPage() throws Exception {
         JsoupUtils jsoupUtils = new JsoupUtils();
 
-        OtoDomParser parser= new OtoDomParser();
+        OtoDomParser parser = new OtoDomParser();
 
         File otodomMain = new File(this.getClass().getResource("/otodom/product/direct/bezposrednio.html").getFile());
         Document otodomMainDoc = jsoupUtils.getJsoupDocument(otodomMain);
@@ -45,14 +48,22 @@ public class OtoDomParserTest {
 
     @Test
     public void testParsePageMetadata() throws Exception {
+        JsoupUtils jsoupUtils = new JsoupUtils();
 
+        OtoDomParser parser = new OtoDomParser();
+
+        File otodomMain = new File(this.getClass().getResource("/otodom/main_search/main.html").getFile());
+        Document otodomMainDoc = jsoupUtils.getJsoupDocument(otodomMain);
+        PageMetadata otoDomMetadata = parser.parsePageMetadata(otodomMainDoc, new Category());
+        assertEquals("http://otodom.pl/index.php?mod=listing&resultsPerPage=25&objSearchQuery.Orderby=&objSearchQuery.ObjectName=Flat&objSearchQuery.OfferType=sell&currentPage=2",
+                otoDomMetadata.getNextPageLink());
     }
 
     @Test
     public void testGetProductURLs() throws Exception {
         JsoupUtils jsoupUtils = new JsoupUtils();
 
-        OtoDomParser parser= new OtoDomParser();
+        OtoDomParser parser = new OtoDomParser();
 
         File otodomMain = new File(this.getClass().getResource("/otodom/main_search/main.html").getFile());
         Document otodomMainDoc = jsoupUtils.getJsoupDocument(otodomMain);

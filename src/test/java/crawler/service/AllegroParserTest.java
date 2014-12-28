@@ -94,6 +94,8 @@ public class AllegroParserTest {
         Category superCategory = new Category();
         PageMetadata pageMetadata = new AllegroParser().parsePageMetadata(doc, superCategory);
         assertEquals(0, pageMetadata.getSubcategoryNameToUrl().size());
+        assertEquals("http://allegro.pl/klocki-cobi-46096?p=2", pageMetadata.getNextPageLink());
+
         assertTrue(pageMetadata.isLowestLevel());
     }
 }

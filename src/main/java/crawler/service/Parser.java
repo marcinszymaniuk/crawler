@@ -11,4 +11,5 @@ public interface Parser {
     public Product parseProductPage(Document doc, Category superCategory);
     public PageMetadata parsePageMetadata(Document doc,Category superCategory);
     public List<String> getProductURLs(Document doc, Category superCategory);
+
 }

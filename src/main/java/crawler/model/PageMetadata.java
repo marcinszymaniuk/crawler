@@ -9,6 +9,7 @@ public class PageMetadata {
     Category category;
     Map<String, String> subcategoryNameToUrl;
     boolean isLowestLevel;
+    String nextPageLink;
 
     public PageMetadata() {
         subcategoryNameToUrl = new HashMap<String, String>();
@@ -39,6 +40,14 @@ public class PageMetadata {
 
     public void setLowestLevel(boolean isLowestLevel) {
         this.isLowestLevel = isLowestLevel;
+    }
+
+    public String getNextPageLink() {
+        return nextPageLink;
+    }
+
+    public void setNextPageLink(String nextPageLink) {
+        this.nextPageLink = nextPageLink;
     }
 
     @Override
