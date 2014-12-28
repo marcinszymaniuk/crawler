@@ -1,20 +1,10 @@
-package com.service;
+package crawler.service;
 
-import com.model.Category;
-import com.model.PageMetadata;
-import com.model.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
 
 public class JsoupUtils {
 
@@ -37,7 +27,6 @@ public class JsoupUtils {
     public Document getJsoupDocument(String url) {
         String costOfDeliveryString = null;
         try {
-            url = url.startsWith("http")?url:"http://allegro.pl/"+url;
             Document doc = Jsoup.connect(url).timeout(10000).get();
             return doc;
 

@@ -1,14 +1,13 @@
-package com.service;
+package crawler.service;
 
-import com.model.Category;
-import com.model.PageMetadata;
-import com.model.Product;
+import crawler.model.Category;
+import crawler.model.PageMetadata;
+import crawler.model.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -53,22 +52,21 @@ public class OtoDomParser implements Parser {
         String seller = calculateSeller(doc);
 
         product.setProduct(price, null, seller, location, superCategory);
-        System.out.println(product.toString());
         return product;
     }
 
     public PageMetadata parsePageMetadata(Document doc, Category superCategory) {
-        return new PageMetadata();
+        return new PageMetadata(new Category(), "", true);
     }
 
 
     public List<String> getProductURLs(Document doc, Category superCategory) {
         Elements linksElements;
-        String link;
         List<String> listOfUrl = new LinkedList<String>();
         linksElements = doc.select(".od-listing_item .od-listing_item-title a");
         for (Element element : linksElements) {
-            link = element.attr("href");
+            String link = element.attr("href");
+            link = link.startsWith("http")?link:"http://otodom.pl"+link;
             listOfUrl.add(link);
         }
 
@@ -84,8 +82,6 @@ public class OtoDomParser implements Parser {
         try {
             for (String element : listOfProductUrl) {
                 productDocument = Jsoup.connect(element).get();
-                System.out.println(element);
-//                System.out.println(productDocument);
                 product = parseProductPage(productDocument, superCategory);
                 listOfProduct.add(product);
 

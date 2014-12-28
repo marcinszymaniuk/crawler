@@ -1,7 +1,4 @@
-package com.model;
-
-import com.model.Category;
-import org.apache.commons.lang3.StringUtils;
+package crawler.model;
 
 import java.util.LinkedList;
 import java.util.List;

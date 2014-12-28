@@ -1,8 +1,8 @@
-package com.service;
+package crawler.service;
 
-import com.model.Category;
-import com.model.PageMetadata;
-import com.model.Product;
+import crawler.model.Category;
+import crawler.model.PageMetadata;
+import crawler.model.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -18,20 +19,19 @@ import java.util.Locale;
 /**
  * Created by marcin on 10/7/14.
  */
-public class AllegroParser implements Parser{
+public class AllegroParser implements Parser {
 
     public static void main(String[] args) {
         AllegroParser p = new AllegroParser();
         JsoupUtils jsoupUtils = new JsoupUtils();
-        Document doc =jsoupUtils.getJsoupDocument("http://allegro.pl/dzial/dom-i-zdrowie");
-        Category superCategory=new Category();
+        Document doc = jsoupUtils.getJsoupDocument("http://allegro.pl/dzial/dom-i-zdrowie");
+        Category superCategory = new Category();
         superCategory.addSubcategory("main");
         PageMetadata metadata = p.parsePageMetadata(doc, superCategory);
-        for(String url: metadata.getSubcategoryNameToUrl().values()){
-            System.out.println(url);
-            doc =jsoupUtils.getJsoupDocument("http://allegro.pl"+url);
+        for (String url : metadata.getSubcategoryNameToUrl().values()) {
+            doc = jsoupUtils.getJsoupDocument("http://allegro.pl" + url);
             PageMetadata m2 = p.parsePageMetadata(doc, superCategory);
-            for(String url2: m2.getSubcategoryNameToUrl().values()){
+            for (String url2 : m2.getSubcategoryNameToUrl().values()) {
                 System.out.println(url2);
             }
         }
@@ -46,17 +46,15 @@ public class AllegroParser implements Parser{
      * For now this returns just price. We should create a class describing product so we can return an instance of it.
      *
      */
-    public Product parseProductPage(Document doc, Category superCategory){
+    public Product parseProductPage(Document doc, Category superCategory) {
         double price = -1;
         Product product = new Product();
-        List<Double> listOfCosts = new LinkedList<Double>();
-        String costOfDeliveryString;
         Elements costOfDeliveryElements = null;
         Element priceElement = null;
         String subCategory = "";
         String seller = "";
         String location = "";
-        String stringPrice ="";
+        String stringPrice = "";
         try {
             priceElement = doc.select("strong[data-price]").first();
             subCategory = doc.select("span[itemprop]").first().text();
@@ -72,25 +70,7 @@ public class AllegroParser implements Parser{
         }
 
 
-        System.out.println(doc.select("a[href*=/ref/]"));
-        try {
-            for (Element src : costOfDeliveryElements) {
-                if (src.attr("class").equals("whiteBg")) {
-                    costOfDeliveryString = src.text().trim().split(" z")[0];
-
-                    NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-                    Number number = format.parse(costOfDeliveryString);
-                    double costOfDelivery = number.doubleValue();
-                    listOfCosts.add(costOfDelivery);
-
-//                    System.out.print("parseException");
-
-
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        List<Double> listOfCosts = parseDeliveryCost(costOfDeliveryElements);
 
 
         try {
@@ -103,10 +83,29 @@ public class AllegroParser implements Parser{
         }
 
         product.setProduct(price, listOfCosts, seller, location, superCategory);
-
-
-        System.out.println(product.toString());
         return product;
+    }
+
+    private List<Double> parseDeliveryCost(Elements costOfDeliveryElements) {
+        List<Double> listOfCosts = new LinkedList<>();
+        String costOfDeliveryString;
+
+        for (Element src : costOfDeliveryElements) {
+            if (src.attr("class").equals("whiteBg")) {
+                costOfDeliveryString = src.text().trim().split(" z")[0];
+                NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+                costOfDeliveryString = costOfDeliveryString.replace("od ", "");
+                try {
+                    Number number = format.parse(costOfDeliveryString);
+                    double costOfDelivery = number.doubleValue();
+                    listOfCosts.add(costOfDelivery);
+                } catch (ParseException e) {
+                    throw new UnexpectedParserState("Problem while parsing costOfDelivery: "+costOfDeliveryString);
+                }
+            }
+        }
+        return listOfCosts;
+
     }
 
     public PageMetadata parsePageMetadata(Document doc, Category superCategory) {
@@ -115,7 +114,7 @@ public class AllegroParser implements Parser{
         PageMetadata pageMetadata = new PageMetadata(superCategory, doc.baseUri(), false);
 
         Element current = doc.select(".sidebar-cat").select(".current").first();
-        if(current!=null){
+        if (current != null) {
             pageMetadata.setLowestLevel(true);
             return pageMetadata;
         }
@@ -123,17 +122,17 @@ public class AllegroParser implements Parser{
 
         Elements categories = doc.select(".category-map-list-wrapper .main-category a");
         //lack of main (large font) categories
-        if(categories.isEmpty()){
+        if (categories.isEmpty()) {
             categories = doc.select("#sidebar #sidebar-categories .widget-content a");
         }
-        if(!categories.isEmpty())
-        {
-            for(Element element:categories) {
+        if (!categories.isEmpty()) {
+            for (Element element : categories) {
 
                 nameOfSubcategoryFirstPage = element.select("span").first().text();
 
                 if (!nameOfSubcategoryFirstPage.isEmpty()) {
-                    String subcategoryUrl = element.attr("href").replace("?string=","");
+                    String subcategoryUrl = element.attr("href").replace("?string=", "");
+                    subcategoryUrl = subcategoryUrl.startsWith("http")?subcategoryUrl:"http://allegro.pl/"+subcategoryUrl;
                     pageMetadata.addToSubcategoryNameToUrl(nameOfSubcategoryFirstPage, subcategoryUrl);
 
                 }
@@ -148,19 +147,19 @@ public class AllegroParser implements Parser{
 
     public List<String> getProductURLs(Document doc, Category superCategory) {
         Elements linksElements;
-        String link;
-        List<String> listOfUrl = new LinkedList<String>();
+        List<String> listOfUrl = new ArrayList<>();
 
         linksElements = doc.select("a[href*=html]");
         for (Element element : linksElements) {
-            link = element.attr("href");
+            String link = element.attr("href");
+            link = link.startsWith("http")?link:"http://allegro.pl/"+link;
             listOfUrl.add(link);
-//            System.out.println(link);
         }
 
         return listOfUrl;
     }
-    public void parseListOfProduct(Document doc,Category superCategory) throws ParseException{
+
+    public void parseListOfProduct(Document doc, Category superCategory) throws ParseException {
         List<String> listOfProductUrl = new LinkedList<String>();
         List<Product> listOfProduct = new LinkedList<Product>();
         Product product = new Product();
@@ -169,17 +168,14 @@ public class AllegroParser implements Parser{
         try {
             for (String element : listOfProductUrl) {
                 productDocument = Jsoup.connect(element).get();
-                System.out.println(element);
 //                System.out.println(productDocument);
                 product = parseProductPage(productDocument, superCategory);
                 listOfProduct.add(product);
 
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
 
     }

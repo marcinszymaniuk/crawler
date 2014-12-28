@@ -1,4 +1,4 @@
-package com.db;
+package crawler.db;
 
 import org.postgresql.ds.PGPoolingDataSource;
 //import org.postgresql.util.PGobject;

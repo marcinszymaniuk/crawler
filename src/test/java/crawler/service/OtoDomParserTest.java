@@ -1,7 +1,9 @@
-package com.service;
+package crawler.service;
 
-import com.model.Category;
-import com.model.Product;
+import crawler.model.Category;
+import crawler.model.Product;
+import crawler.service.JsoupUtils;
+import crawler.service.OtoDomParser;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 

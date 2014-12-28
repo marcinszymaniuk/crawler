@@ -1,5 +1,5 @@
 
-package com;
+package crawler;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

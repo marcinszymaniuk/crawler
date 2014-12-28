@@ -1,10 +1,10 @@
-package com.service;
+package crawler.service;
 
-import com.model.Category;
-import com.model.PageMetadata;
-import com.service.AllegroParser;
-import com.service.JsoupUtils;
-import com.model.Product;
+import crawler.model.Category;
+import crawler.model.PageMetadata;
+import crawler.service.AllegroParser;
+import crawler.service.JsoupUtils;
+import crawler.model.Product;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
@@ -37,6 +37,25 @@ public class AllegroParserTest {
         expectedDeliveryCost.add(12.9);
         assertEquals(expectedDeliveryCost, product.getDeliveryCost());
         assertEquals("Nd_Instrumenty", product.getSeller());
+        assertEquals("Wrocław", product.getLocation());
+    }
+
+    @Test
+    public void testParseProductPageDeliverPriceFrom() throws Exception {
+        JsoupUtils jsoupUtils = new JsoupUtils();
+        Document doc = jsoupUtils.getJsoupDocument(new File(this.getClass().
+                getResource("/allegro/flamaster/flamaster.html").getFile()));
+        Category superCategory = new Category();
+
+        Product product = new AllegroParser().parseProductPage(doc, superCategory);
+
+        assertEquals(17.99, product.getPrice());
+        ArrayList<Double> expectedDeliveryCost = new ArrayList<>();
+        expectedDeliveryCost.add(9.9);
+        expectedDeliveryCost.add(9.9);
+        expectedDeliveryCost.add(14.9);
+        assertEquals(expectedDeliveryCost, product.getDeliveryCost());
+        assertEquals("EMAKO_pl", product.getSeller());
         assertEquals("Wrocław", product.getLocation());
     }
 

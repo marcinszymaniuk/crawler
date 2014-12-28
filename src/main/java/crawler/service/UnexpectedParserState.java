@@ -1,4 +1,4 @@
-package com.service;
+package crawler.service;
 
 import org.jsoup.nodes.Document;
 
